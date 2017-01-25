@@ -14,7 +14,8 @@ How to start the CgiPocDropwizard application
 1. Create a key store in the project's folder using Java 8 *keytool* 
 `keytool -genkeypair -keyalg RSA -dname "CN=localhost" -keystore cgi-poc-dw.keystore -keypass p@ssw0rd -storepass p@ssw0rd`
 2. Run `mvn clean package` to build the application
-3. To populate the database run `java -jar target/cgi-poc-dw-1.0-SNAPSHOT.jar db migrate -i TEST config.yml` 
+3. To populate the database first ensure that the config.yml file is matching with the database configs, 
+then run `java -jar target/cgi-poc-dw-1.0-SNAPSHOT.jar db migrate -i TEST config.yml` 
 4. Start application with `java -jar target/cgi-poc-dw-1.0-SNAPSHOT.jar server config.yml`
 5. To check that your application is running, enter URL `http://localhost:8081` in the browser 
   
