@@ -1,0 +1,27 @@
+## Test configuration file.
+---
+
+# Database settings.
+database:
+
+  # the name of your JDBC driver
+  driverClass: org.h2.Driver
+
+  # the username
+  user: sa
+
+  # the password
+  password: sa
+
+  # the JDBC URL
+  url: jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1
+
+# Enable HTTPS
+server:
+    applicationConnectors:
+        - type: https
+          port: 0
+          keyStorePath: cgi-poc-dw.keystore
+          keyStorePassword: p@ssw0rd
+          validateCerts: false
+          validatePeers: false

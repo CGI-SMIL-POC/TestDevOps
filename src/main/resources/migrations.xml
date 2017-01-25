@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
+    
+    <changeSet id="1" author="cgi">
+        <comment>A script to create a users table</comment>
+        <createTable tableName="users">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    
+    <changeSet id="2" author="cgi">
+        <comment>A script to create a assets table</comment>
+        <createTable tableName="assets">
+            <column name="id"  type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="url" type="varchar(1024)" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(2048)"/>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="assets"
+                                 constraintName="fk_users_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+    
+    <changeSet id="3" author="cgi" context="DEV">
+        <insert tableName="users">
+            <column name="id" value="1"/>
+            <column name="username" value="cgi"/>
+            <column name="password" value="p@ssw0rd"/>
+        </insert>
+        <rollback>
+            <delete tableName="users">
+                <where>
+                    id=1
+                </where>
+            </delete>
+        </rollback>
+    </changeSet>
+    
+    <changeSet id="4" author="cgi" context="TEST">
+        <insert tableName="users">
+            <column name="id" value="1"/>
+            <column name="username" value="cgi"/>
+            <column name="password" value="p@ssw0rd"/>
+        </insert>
+        <insert tableName="users">
+            <column name="id" value="2"/>
+            <column name="username" value="Phil"/>
+            <column name="password" value="p@ssw0rd"/>
+        </insert>
+        <rollback>
+            <delete tableName="users">
+                <where>
+                    id in (1, 2)
+                </where>
+            </delete>
+        </rollback>
+    </changeSet>
+    
+    <changeSet id="5" author="cgi" context="TEST">
+        <insert tableName="assets">
+            <column name="id" value="1"/>
+            <column name="url" value="https://dropwizard.github.io/dropwizard/getting-started.html"/>
+            <column name="description" value="Dropwizard Getting Started"/>
+            <column name="user_id" value="1"/>
+        </insert>
+        <insert tableName="assets">
+            <column name="id" value="2"/>
+            <column name="url" value="https://docs.jboss.org/hibernate/orm/3.5/api/org/hibernate/context/ManagedSessionContext.html"/>
+            <column name="description" value="Hibernate Docs"/>
+            <column name="user_id" value="1"/>
+        </insert>
+        <insert tableName="assets">
+            <column name="id" value="3"/>
+            <column name="url" value="http://www.w3schools.com/sql/sql_in.asp"/>
+            <column name="description" value="SQL Tutorial"/>
+            <column name="user_id" value="2"/>
+        </insert>
+        <rollback>
+            <delete tableName="assets">
+                <where>
+                    id in (1, 2, 3)
+                </where>
+            </delete>
+        </rollback>
+    </changeSet>
+    
+    <changeSet id="6" author="cgi" context="TEST">
+        <comment>Encode users' passwords</comment>
+        <update tableName="users">
+            <column name="password" value="EycFHCPGq5FTkwcdwx0U16PLFmZUbotV"/>
+            <where>
+                id in (1, 2)
+            </where>
+        </update>
+        <rollback>
+            <update tableName="users">
+                <column name="password" value="p@ssw0rd"/>
+                <where>
+                    id in (1, 2)
+                </where>
+            </update>
+        </rollback>
+    </changeSet>
+    
+    <changeSet id="7" author="cgi" context="DEV">
+        <comment>Encode users' passwords</comment>
+        <update tableName="users">
+            <column name="password" value="EycFHCPGq5FTkwcdwx0U16PLFmZUbotV"/>
+            <where>
+                id = 1
+            </where>
+        </update>
+        <rollback>
+            <update tableName="users">
+                <column name="password" value="p@ssw0rd"/>
+                <where>
+                    id = 1
+                </where>
+            </update>
+        </rollback>
+    </changeSet>
+    
+</databaseChangeLog>
