@@ -1,0 +1,10 @@
+{
+	"GENERIC.MESSAGE.SUCCESS": "Operation success",
+	"GENERIC.MESSAGE.ERROR.SERVER": "An Error occurred !",
+	"LOGIN.MESSAGE.LOGGEDIN": "You are Logged in",
+	"LOGIN.MESSAGE.UNVALID": "Connection failed!Verify your email or password ",
+	"LOGIN.LABEL.HEADER": "Login",
+	"LOGIN.LABEL.USERNAME": "Enter your email :",
+	"LOGIN.LABEL.PASSWORD": "Enter your password :",
+	"LOGIN.BUTTON.SUBMIT" : "submit"
+}

@@ -1,0 +1,30 @@
+# Database settings.
+database:
+    
+    # the name of your JDBC driver
+    driverClass: com.mysql.jdbc.Driver
+    
+    # the username
+    user: cgi_user
+    
+    # the password
+    password: cgi_P@ssw0rd
+    
+    # the JDBC URL
+    url: jdbc:mysql://localhost:3306/cgi_poc
+
+# Enable HTTPS
+server:
+    applicationConnectors:
+        - type: https
+          port: 8443
+          keyStorePath: cgi-poc-dw.keystore
+          keyStorePassword: p@ssw0rd
+          validateCerts: false
+          validatePeers: false
+
+# Logging settings    
+logging:
+  level: INFO
+  loggers:
+    com.cgi: DEBUG

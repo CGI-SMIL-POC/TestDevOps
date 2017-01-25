@@ -1,0 +1,48 @@
+
+<div ng-controller="loginController as vm"
+	ng-if="$parent.USER?false:true">
+	<div ng-show="vm.errorNotif">
+		<a href="#" ng-click="closeAlert('error')"
+			aria-label="close">&times;</a> {{vm.errorMessage | translate}}
+	</div>
+	<div ng-show="vm.successNotif">
+		<a href="#" ng-click="closeAlert('success')"
+			aria-label="close">&times;</a> {{vm.successMessage | translate}}
+	</div>
+	<div>
+		<div>
+			<h3 class="panel-title">{{'LOGIN.LABEL.HEADER' | translate}}</h3>
+		</div>
+		<div>
+			<form name="authForm" novalidate>
+				<fieldset>
+					<div>
+						<label>{{'LOGIN.LABEL.USERNAME' | translate}}</label><input
+							type="email" ng-model="user.username" validate-email
+							name="username" class="form-control" required /> <span
+							
+							ng-show="authForm.username.$touched && authForm.username.$error.required"></span>
+						<span ng-show="authForm.username.$error.email">{{'LOGIN.MESSAGE.UNVALID.USERNAME'
+							| translate}}</span>
+					</div>
+					<div>
+						<label>{{'LOGIN.LABEL.PASSWORD' | translate}}</label> <input
+							class="form-control" name="password" ng-model="user.password"
+							type="password" required="true"
+							ng-pattern="$parent.VALID_PWD_REGEX"> <span
+							ng-show="authForm.password.$touched && authForm.password.$error.required">{{'LOGIN.MESSAGE.UNVALID.PASSWORDREQUIRED'
+							| translate}}</span> <span
+							ng-show="authForm.password.$touched && authForm.password.$error.pattern">{{'GENERIC.MESSAGE.UNVALID.PASSWORDPATTERN'
+							| translate }}</span>
+
+					</div>
+
+					<!-- Change this to a button or input when using this as a form -->
+					<a href="#"
+						ng-click="vm.submitForm(authForm.$valid)">{{'LOGIN.BUTTON.SUBMIT'
+						| translate}}</a>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+</div>
