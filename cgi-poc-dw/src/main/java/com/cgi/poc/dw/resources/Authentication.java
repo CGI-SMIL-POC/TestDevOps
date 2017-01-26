@@ -3,8 +3,9 @@ package com.cgi.poc.dw.resources;
 import java.util.Optional;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -14,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import com.cgi.poc.dw.core.User;
 import com.cgi.poc.dw.db.UserDAO;
 
-import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
 
 /**
@@ -58,17 +58,18 @@ public class Authentication {
     /**
      * Method returns all assets stored by a particular user.
      *
-     * @param user Authenticated user with whose assets we work.
+     * @param username Authenticated user with whose assets we work.
+     * @param password
      * @return list of assets stored by a particular user.
      */
-    @GET
+    @POST
     @UnitOfWork
-    public String login(@Auth User user) {
+    public String login(@PathParam("username") String username, @PathParam("password") String password) {
     	
     	String authentificationStatus = AUTH_FAILED;
     	
-    	LOGGER.debug("log user : " + user.getUsername());
-        Optional<User> userRetrieved = userDAO.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+    	LOGGER.debug("log user : " + username);
+        Optional<User> userRetrieved = userDAO.findByUsernameAndPassword(username, password);
         
         if(userRetrieved.isPresent()){
         	authentificationStatus = AUTH_SUCCESS;

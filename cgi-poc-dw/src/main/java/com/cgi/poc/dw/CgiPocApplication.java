@@ -6,6 +6,8 @@ import com.cgi.poc.dw.core.User;
 import com.cgi.poc.dw.db.AssetDAO;
 import com.cgi.poc.dw.db.UserDAO;
 import com.cgi.poc.dw.resources.AssetsResource;
+import com.cgi.poc.dw.resources.Authentication;
+
 import io.dropwizard.Application;
 import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.AuthValueFactoryProvider;
@@ -124,6 +126,9 @@ public class CgiPocApplication
 
         // Register the Asset Resource.
         environment.jersey().register(new AssetsResource(assetDAO));
+        
+        // Register the Authentication.
+        environment.jersey().register(new Authentication(userDAO));
     }
 
 }

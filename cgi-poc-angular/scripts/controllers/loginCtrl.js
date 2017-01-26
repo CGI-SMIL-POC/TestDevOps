@@ -47,7 +47,7 @@ cgiWebApp
 									var res = $http
 											.post(
 													//change the url for the jax-rs location
-													$location.protocol() + '://' + location.host + '/cgi-ma-business/services/auth/login',
+													$location.protocol() + '://' + location.host + '/login',
 													dataObject);
 									res
 											.success(function(data, status,
