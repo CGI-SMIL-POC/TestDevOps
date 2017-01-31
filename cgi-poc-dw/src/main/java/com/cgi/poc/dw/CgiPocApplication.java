@@ -46,8 +46,8 @@ public class CgiPocApplication
     /**
      * Application's main method.
      *
-     * @param args
-     * @throws Exception
+     * @param args the main args
+     * @throws Exception the main exception
      */
     public static void main(final String[] args) throws Exception {
         new CgiPocApplication().run(args);
@@ -56,7 +56,7 @@ public class CgiPocApplication
     /**
      * Method returns application name.
      *
-     * @return
+     * @return the name of the application
      */
     @Override
     public String getName() {
@@ -66,7 +66,7 @@ public class CgiPocApplication
     /**
      * Initializations.
      *
-     * @param bootstrap
+     * @param bootstrap the initialize configuration
      */
     @Override
     public void initialize(
@@ -128,7 +128,7 @@ public class CgiPocApplication
         environment.jersey().register(new AssetsResource(assetDAO));
         
         // Register the Authentication.
-        environment.jersey().register(new Authentication(userDAO));
+        environment.jersey().register(new Authentication(authenticator));
     }
 
 }

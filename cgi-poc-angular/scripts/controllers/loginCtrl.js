@@ -3,10 +3,8 @@ cgiWebApp
 				'loginController',
 				[
 						"$scope",
-						"$http",
-						"$location",
-						"$timeout",
-						function $($scope, $http,$location,$timeout) {
+						"Authenticator",
+						function $($scope, Authenticator) {
 
 							
 							$scope.popUp = function(code, message, duration) {
@@ -17,10 +15,6 @@ cgiWebApp
 									model.successNotif = true;
 									model.successMessage = message;
 								}
-								$timeout(function() {
-									$scope.closeAlert(code);
-								}, duration);
-
 							};
 							
 							var model = this;
@@ -43,57 +37,33 @@ cgiWebApp
 									var dataObject = {
 										username : $scope.user.username,
 										password : $scope.user.password
-									}
-									var res = $http
-											.post(
-													//change the url for the jax-rs location
-													$location.protocol() + '://' + location.host + '/login',
-													dataObject);
-									res
-											.success(function(data, status,
-													headers, config) {
-
-												if (data.statut === "SUCCESS") {
-													
-													model.errorNotif = false;
-													
-													$scope.$parent.USER=data.user;
-													$scope.$parent.template.url = "";
-													$scope.$parent.successNotif=true;
-													$scope.$parent.successMessage ="LOGIN.MESSAGE.LOGGEDIN";
-													$scope.$parent.navigate('INDEX');
-													
-													
-
-													
-												} else {
-													$scope.popUp("error","LOGIN.MESSAGE.UNVALID",POP_UP_DURATION);
-												}
-
-												$scope.authForm.$setPristine();
-												$scope.authForm.$setUntouched();
-
-											});
-									res.error(function(data, status, headers,
-											config) {
-										$scope.popUp("error","GENERIC.MESSAGE.ERROR.SERVER",POP_UP_DURATION);
+									};
+									
+									//call to the authenticate service
+									Authenticator.authenticate(dataObject).then(function(callStatus) {
+										if(callStatus == "SUCCESS"){
+									        model.errorNotif = false;
+	
+									        $scope.$parent.USER = data.user;
+									        $scope.$parent.template.url = "";
+									        $scope.$parent.successNotif = true;
+									        $scope.$parent.successMessage = "LOGIN.MESSAGE.LOGGEDIN";
+									        $scope.$parent.navigate('INDEX');
+										}else if(callStatus == "FAILED"){
+											$scope.popUp("error", "LOGIN.MESSAGE.UNVALID", POP_UP_DURATION);
+										}else{
+											$scope.popUp("error", "GENERIC.MESSAGE.ERROR.SERVER", POP_UP_DURATION);
+										}
+										
+									    $scope.authForm.$setPristine();
+									    $scope.authForm.$setUntouched();
+										
 									});
+									
 									// Making the fields empty
-
 									$scope.user.username = "";
 									$scope.user.password = "";
 								}
-							};
-							
-							$scope.closeAlert = function(code){
-					        	if (code === 'error'){
-					        		model.errorNotif = false;
-					        		model.errorMessage = "";
-					        	}
-					        	else{
-					        		model.successNotif = false;
-					        		model.successMessage = "";
-					        	}
 							};
 							
 						} ]);

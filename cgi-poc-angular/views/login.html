@@ -18,11 +18,9 @@
 				<fieldset>
 					<div>
 						<label>{{'LOGIN.LABEL.USERNAME' | translate}}</label><input
-							type="email" ng-model="user.username" validate-email
-							name="username" class="form-control" required /> <span
-							
-							ng-show="authForm.username.$touched && authForm.username.$error.required"></span>
-						<span ng-show="authForm.username.$error.email">{{'LOGIN.MESSAGE.UNVALID.USERNAME'
+							type="text" ng-model="user.username"
+							name="username" class="form-control" required="true" /> <span
+							ng-show="authForm.username.$touched && authForm.username.$error.required">{{'LOGIN.MESSAGE.UNVALID.USERNAMEREQUIRED'
 							| translate}}</span>
 					</div>
 					<div>

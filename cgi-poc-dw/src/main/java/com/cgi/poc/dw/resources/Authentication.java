@@ -3,18 +3,20 @@ package com.cgi.poc.dw.resources;
 import java.util.Optional;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.cgi.poc.dw.auth.DBAuthenticator;
 import com.cgi.poc.dw.core.User;
-import com.cgi.poc.dw.db.UserDAO;
 
+import io.dropwizard.auth.AuthenticationException;
+import io.dropwizard.auth.basic.BasicCredentials;
 import io.dropwizard.hibernate.UnitOfWork;
 
 /**
@@ -44,35 +46,39 @@ public class Authentication {
     /**
      * DAO to manipulate assets.
      */
-    private final UserDAO userDAO;
+    private final DBAuthenticator dbAuthenticator;
 
     /**
      * Constructor to initialize DAO.
      *
-     * @param userDAO DAO to manipulate user.
+     * @param dbAuthenticator the authenticator.
      */
-    public Authentication(final UserDAO userDAO) {
-        this.userDAO = userDAO;
+    public Authentication(final DBAuthenticator dbAuthenticator) {
+        this.dbAuthenticator = dbAuthenticator;
     }
 
     /**
      * Method returns all assets stored by a particular user.
      *
-     * @param username Authenticated user with whose assets we work.
-     * @param password
-     * @return list of assets stored by a particular user.
+     * @param loginRequest LoginRequest the login request
+     * @return String the login status.
      */
     @POST
     @UnitOfWork
-    public String login(@PathParam("username") String username, @PathParam("password") String password) {
+    public String login(LoginRequest loginRequest) {
     	
     	String authentificationStatus = AUTH_FAILED;
-    	
-    	LOGGER.debug("log user : " + username);
-        Optional<User> userRetrieved = userDAO.findByUsernameAndPassword(username, password);
-        
-        if(userRetrieved.isPresent()){
-        	authentificationStatus = AUTH_SUCCESS;
+    	try{
+    		
+    		BasicCredentials credentials = new BasicCredentials(loginRequest.getUsername(), loginRequest.getPassword());
+    		
+    		final Optional<User> principal = dbAuthenticator.authenticate(credentials);
+            if (principal.isPresent()) {
+            	authentificationStatus = AUTH_SUCCESS;
+            }
+    	} catch (AuthenticationException e) {
+    		LOGGER.warn("Error authenticating credentials", e);
+            throw new InternalServerErrorException();
         }
         
         return authentificationStatus;

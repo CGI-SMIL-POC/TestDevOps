@@ -1,0 +1,31 @@
+{
+  "name": "pocsac-fe",
+  "version": "1.0.0",
+  "main": "index.html",
+  "dependencies": {
+    "angular": "^1.6.1",
+    "express": "^4.14.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CGI-Zahid/CGI-POC-Prep.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CGI-Zahid/CGI-POC-Prep/issues"
+  },
+  "homepage": "https://github.com/CGI-Zahid/CGI-POC-Prep#readme",
+  "devDependencies": {
+    "angular-translate": "^2.13.1",
+    "jasmine-core": "^2.5.2",
+    "karma": "^1.4.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-jasmine": "^1.1.0",
+    "karma-phantomjs-launcher": "^1.0.2"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

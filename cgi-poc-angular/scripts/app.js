@@ -10,6 +10,8 @@
  */
 var cgiWebApp = angular.module('cgi-web-app', ['pascalprecht.translate']);
 
+var POP_UP_DURATION = 30*1000;
+
 cgiWebApp.config(['$translateProvider', function($translateProvider) {
   $translateProvider.useStaticFilesLoader({
     prefix: 'language/locale-', // path to translations files
