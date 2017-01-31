@@ -61,27 +61,28 @@ public class Authentication {
      * Method returns all assets stored by a particular user.
      *
      * @param loginRequest LoginRequest the login request
-     * @return String the login status.
+     * @return LoginResponse the login response.
      */
     @POST
     @UnitOfWork
-    public String login(LoginRequest loginRequest) {
+    public LoginResponse login(LoginRequest loginRequest) {
     	
-    	String authentificationStatus = AUTH_FAILED;
+    	LoginResponse loginResponse = new LoginResponse(); 
+    	loginResponse.setStatus(AUTH_FAILED);
     	try{
     		
     		BasicCredentials credentials = new BasicCredentials(loginRequest.getUsername(), loginRequest.getPassword());
     		
     		final Optional<User> principal = dbAuthenticator.authenticate(credentials);
             if (principal.isPresent()) {
-            	authentificationStatus = AUTH_SUCCESS;
+            	loginResponse.setStatus(AUTH_SUCCESS);
             }
     	} catch (AuthenticationException e) {
     		LOGGER.warn("Error authenticating credentials", e);
             throw new InternalServerErrorException();
         }
         
-        return authentificationStatus;
+        return loginResponse;
         
     }
 

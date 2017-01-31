@@ -11,10 +11,10 @@ cgiWebApp
           dataObject);
       var promise = res.then(function successCallback(response) {
 
-    	  return "SUCCESS";
+    	  return response;
 
       }, function errorCallback(response) {
-        return "ERROR";
+        return response;
       });
       
       return promise;

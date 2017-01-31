@@ -40,16 +40,16 @@ cgiWebApp
 									};
 									
 									//call to the authenticate service
-									Authenticator.authenticate(dataObject).then(function(callStatus) {
-										if(callStatus == "SUCCESS"){
+									Authenticator.authenticate(dataObject).then(function(response) {
+										if(response.data.status == "SUCCESS"){
 									        model.errorNotif = false;
 	
-									        $scope.$parent.USER = data.user;
-									        $scope.$parent.template.url = "";
-									        $scope.$parent.successNotif = true;
-									        $scope.$parent.successMessage = "LOGIN.MESSAGE.LOGGEDIN";
-									        $scope.$parent.navigate('INDEX');
-										}else if(callStatus == "FAILED"){
+//									        $scope.$parent.USER = data.user;
+//									        $scope.$parent.template.url = "";
+									        model.successNotif = true;
+									        model.successMessage = "LOGIN.MESSAGE.LOGGEDIN";
+//									        $scope.$parent.navigate('INDEX');
+										}else if(response.data.status == "FAILED"){
 											$scope.popUp("error", "LOGIN.MESSAGE.UNVALID", POP_UP_DURATION);
 										}else{
 											$scope.popUp("error", "GENERIC.MESSAGE.ERROR.SERVER", POP_UP_DURATION);
