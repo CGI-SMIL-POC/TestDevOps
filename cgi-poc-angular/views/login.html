@@ -1,31 +1,39 @@
-
 <div ng-controller="loginController as vm"
-	ng-if="$parent.USER?false:true">
-	<div ng-show="vm.errorNotif">
-		<a href="#" ng-click="closeAlert('error')"
-			aria-label="close">&times;</a> {{vm.errorMessage | translate}}
+	ng-if="$parent.USER?false:true" class="usa-content">
+	<div class="usa-grid login-alert">
+		<div class="usa-alert usa-alert-success" ng-show="vm.successNotif">
+			<div class="usa-alert-body">
+				<h3 class="usa-alert-heading">Success Status</h3>
+				<p class="usa-alert-text">{{vm.successMessage | translate}}</p>
+				<!-- 			<a href="#" ng-click="closeAlert('error')" aria-label="close">&times;</a> -->
+			</div>
+		</div>
+		<div class="usa-alert usa-alert-error" role="alert"
+			ng-show="vm.errorNotif">
+			<div class="usa-alert-body">
+				<h3 class="usa-alert-heading">Error Status</h3>
+				<p class="usa-alert-text">{{vm.errorMessage | translate}}</p>
+				<!-- 				<a href="#" ng-click="closeAlert('success')" aria-label="close">&times;</a> -->
+			</div>
+		</div>
 	</div>
-	<div ng-show="vm.successNotif">
-		<a href="#" ng-click="closeAlert('success')"
-			aria-label="close">&times;</a> {{vm.successMessage | translate}}
-	</div>
-	<div>
+	<div class="usa-grid login-content">
 		<div>
-			<h3 class="panel-title">{{'LOGIN.LABEL.HEADER' | translate}}</h3>
+			<img src="/images/cwds.jpg" />
 		</div>
 		<div>
 			<form name="authForm" novalidate>
 				<fieldset>
 					<div>
 						<label>{{'LOGIN.LABEL.USERNAME' | translate}}</label><input
-							type="text" ng-model="user.username"
-							name="username" class="form-control" required="true" /> <span
+							type="text" ng-model="user.username" name="username"
+							class="auth-input" required="true" /> <span
 							ng-show="authForm.username.$touched && authForm.username.$error.required">{{'LOGIN.MESSAGE.UNVALID.USERNAMEREQUIRED'
 							| translate}}</span>
 					</div>
 					<div>
 						<label>{{'LOGIN.LABEL.PASSWORD' | translate}}</label> <input
-							class="form-control" name="password" ng-model="user.password"
+							class="auth-input" name="password" ng-model="user.password"
 							type="password" required="true"
 							ng-pattern="$parent.VALID_PWD_REGEX"> <span
 							ng-show="authForm.password.$touched && authForm.password.$error.required">{{'LOGIN.MESSAGE.UNVALID.PASSWORDREQUIRED'
@@ -34,11 +42,25 @@
 							| translate }}</span>
 
 					</div>
-
-					<!-- Change this to a button or input when using this as a form -->
-					<a href="#"
-						ng-click="vm.submitForm(authForm.$valid)">{{'LOGIN.BUTTON.SUBMIT'
-						| translate}}</a>
+					<div>
+						<input type="checkbox" ng-model="user.rememberme"
+							name="remerberme" class="form-control" /><label>{{'LOGIN.LABEL.REMEMBERME'
+							| translate}}</label>
+					</div>
+					<div>
+						<button class="usa-button-primary-alt usa-button-login"
+							ng-click="vm.submitForm(authForm.$valid)">{{'LOGIN.BUTTON.SUBMIT'
+							| translate}}</button>
+					</div>
+					<h5>
+						<a href="#" ng-click="$parent.navigate('PWD_RE_INT')">{{'LOGIN.MESSAGE.PASSWORDFORGOT.LINK'
+							| translate}} </a>
+					</h5>
+					<h5>
+						{{'LOGIN.MESSAGE.SIGNIN' | translate}} <a href="#"
+							ng-click="$parent.navigate('SIGNIN')">{{'LOGIN.MESSAGE.SIGNIN.LINK'
+								| translate}}</a>
+					</h5>
 				</fieldset>
 			</form>
 		</div>

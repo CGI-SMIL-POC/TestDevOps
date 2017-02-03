@@ -1,3 +1,13 @@
+'use strict';
+
+/**
+ * @ngdoc overview
+ * @name pocsacApp
+ * @description
+ * # pocsacApp
+ *
+ * authentication service.
+ */
 cgiWebApp
   .service('Authenticator', ["$http", "$location", function($http, $location) {
 
@@ -11,12 +21,12 @@ cgiWebApp
           dataObject);
       var promise = res.then(function successCallback(response) {
 
-    	  return response;
+        return response;
 
       }, function errorCallback(response) {
         return response;
       });
-      
+
       return promise;
     };
 
